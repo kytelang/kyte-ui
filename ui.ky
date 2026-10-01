@@ -1,0 +1,103 @@
+// kyte-ui: a small, presentational component kit for KYX, styled with Tailwind
+// utility classes. Import it as `import ui;` and use the components with qualified
+// tags, for example `<ui.Button tone={ui.Tone.Primary}>Save</ui.Button>`.
+//
+// Design notes:
+//   - Components are presentational: they emit markup and Tailwind classes, and carry
+//     no bundled client JavaScript. Interactive pieces use HTML-native mechanisms
+//     (`<details>`) so they work under any hypermedia framework (htmx, Unpoly, Alpine,
+//     datastar) or none. Server-driven behaviour is expressed through `web.hyper` by
+//     the application, not hardcoded here.
+//   - Variants are typed (the `Tone` enum), so a wrong variant is a compile error.
+//   - The classes are fixed in v0. Tailwind's JIT only keeps classes it can see, so an
+//     app that depends on this package must include it in the Tailwind `content` globs
+//     (see the README), or ship the provided safelist.
+
+import string;
+
+// The semantic tone of a component. Separate from any Tailwind accent: it maps to a
+// fixed set of utility classes below.
+pub enum Tone {
+    Primary,
+    Secondary,
+    Success,
+    Danger,
+    Warning,
+}
+
+fn toneButton(t: Tone): string {
+    switch (t) {
+        case Tone.Primary: { return "bg-blue-600 hover:bg-blue-700 text-white"; }
+        case Tone.Secondary: { return "bg-slate-200 hover:bg-slate-300 text-slate-900"; }
+        case Tone.Success: { return "bg-green-600 hover:bg-green-700 text-white"; }
+        case Tone.Danger: { return "bg-red-600 hover:bg-red-700 text-white"; }
+        case Tone.Warning: { return "bg-amber-500 hover:bg-amber-600 text-white"; }
+    }
+}
+
+fn toneBadge(t: Tone): string {
+    switch (t) {
+        case Tone.Primary: { return "bg-blue-100 text-blue-800"; }
+        case Tone.Secondary: { return "bg-slate-100 text-slate-800"; }
+        case Tone.Success: { return "bg-green-100 text-green-800"; }
+        case Tone.Danger: { return "bg-red-100 text-red-800"; }
+        case Tone.Warning: { return "bg-amber-100 text-amber-800"; }
+    }
+}
+
+fn toneAlert(t: Tone): string {
+    switch (t) {
+        case Tone.Primary: { return "bg-blue-50 border-blue-200 text-blue-800"; }
+        case Tone.Secondary: { return "bg-slate-50 border-slate-200 text-slate-800"; }
+        case Tone.Success: { return "bg-green-50 border-green-200 text-green-800"; }
+        case Tone.Danger: { return "bg-red-50 border-red-200 text-red-800"; }
+        case Tone.Warning: { return "bg-amber-50 border-amber-200 text-amber-800"; }
+    }
+}
+
+// A button. Its content comes from the slot: `<ui.Button tone={ui.Tone.Primary}>Save</ui.Button>`.
+pub component Button(tone: Tone) {
+    <button class={`inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-colors ${toneButton(tone)}`}>
+        <slot/>
+    </button>
+}
+
+// A small status pill.
+pub component Badge(tone: Tone) {
+    <span class={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${toneBadge(tone)}`}>
+        <slot/>
+    </span>
+}
+
+// A bordered callout for a message; the message is the slot content.
+pub component Alert(tone: Tone, title: string) {
+    <div class={`rounded-md border px-4 py-3 text-sm ${toneAlert(tone)}`}>
+        <p class="font-semibold">{title}</p>
+        <div class="mt-1"><slot/></div>
+    </div>
+}
+
+// A titled surface that holds arbitrary content in its slot.
+pub component Card(title: string) {
+    <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <h3 class="text-base font-semibold text-slate-800">{title}</h3>
+        <div class="mt-2 text-sm text-slate-600"><slot/></div>
+    </section>
+}
+
+// A labelled form field wrapper; put the input in the slot.
+pub component Field(label: string) {
+    <label class="block">
+        <span class="mb-1 block text-sm font-medium text-slate-700">{label}</span>
+        <slot/>
+    </label>
+}
+
+// A disclosure (expand/collapse) built on the native <details> element: no JavaScript,
+// works under every hypermedia framework. Dropdowns and accordions build on this.
+pub component Disclosure(summary: string) {
+    <details class="rounded-md border border-slate-200">
+        <summary class="cursor-pointer select-none px-3 py-2 text-sm font-medium text-slate-800">{summary}</summary>
+        <div class="border-t border-slate-200 px-3 py-2 text-sm text-slate-600"><slot/></div>
+    </details>
+}
