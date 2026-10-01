@@ -29,3 +29,11 @@ fn test_renders_kit(): void {
     assert.isTrue(string.contains(h, "bg-blue-600 hover:bg-blue-700 text-white")); // Button Primary
     assert.isTrue(string.contains(h, ">Save</button>"));
 }
+
+@test
+fn test_cls_override(): void {
+    // Default cls leaves base classes unchanged; a provided cls is appended.
+    assert.isTrue(string.contains(<ui.Badge tone={ui.Tone.Primary}>x</ui.Badge>, "text-blue-800\">x</span>"));
+    assert.isTrue(string.contains(<ui.Badge tone={ui.Tone.Primary} cls="ml-2">x</ui.Badge>, "text-blue-800 ml-2\">x</span>"));
+    assert.isTrue(string.contains(<ui.Card title="T" cls="w-96">body</ui.Card>, "shadow-sm w-96\">"));
+}

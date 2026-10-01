@@ -55,39 +55,47 @@ fn toneAlert(t: Tone): string {
     }
 }
 
+
+// Joins a component's base classes with a caller-supplied override, omitting the
+// separator when the override is empty (so the default leaves output unchanged).
+fn cx(base: string, extra: string): string {
+    if (extra == "") { return base; }
+    return `${base} ${extra}`;
+}
+
 // A button. Its content comes from the slot: `<ui.Button tone={ui.Tone.Primary}>Save</ui.Button>`.
-pub component Button(tone: Tone) {
-    <button class={`inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-colors ${toneButton(tone)}`}>
+pub component Button(tone: Tone, cls: string = "") {
+    <button class={cx(`inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-colors ${toneButton(tone)}`, cls)}>
         <slot/>
     </button>
 }
 
 // A small status pill.
-pub component Badge(tone: Tone) {
-    <span class={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${toneBadge(tone)}`}>
+pub component Badge(tone: Tone, cls: string = "") {
+    <span class={cx(`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${toneBadge(tone)}`, cls)}>
         <slot/>
     </span>
 }
 
 // A bordered callout for a message; the message is the slot content.
-pub component Alert(tone: Tone, title: string) {
-    <div class={`rounded-md border px-4 py-3 text-sm ${toneAlert(tone)}`}>
+pub component Alert(tone: Tone, title: string, cls: string = "") {
+    <div class={cx(`rounded-md border px-4 py-3 text-sm ${toneAlert(tone)}`, cls)}>
         <p class="font-semibold">{title}</p>
         <div class="mt-1"><slot/></div>
     </div>
 }
 
 // A titled surface that holds arbitrary content in its slot.
-pub component Card(title: string) {
-    <section class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+pub component Card(title: string, cls: string = "") {
+    <section class={cx("rounded-lg border border-slate-200 bg-white p-4 shadow-sm", cls)}>
         <h3 class="text-base font-semibold text-slate-800">{title}</h3>
         <div class="mt-2 text-sm text-slate-600"><slot/></div>
     </section>
 }
 
 // A labelled form field wrapper; put the input in the slot.
-pub component Field(label: string) {
-    <label class="block">
+pub component Field(label: string, cls: string = "") {
+    <label class={cx("block", cls)}>
         <span class="mb-1 block text-sm font-medium text-slate-700">{label}</span>
         <slot/>
     </label>
@@ -95,8 +103,8 @@ pub component Field(label: string) {
 
 // A disclosure (expand/collapse) built on the native <details> element: no JavaScript,
 // works under every hypermedia framework. Dropdowns and accordions build on this.
-pub component Disclosure(summary: string) {
-    <details class="rounded-md border border-slate-200">
+pub component Disclosure(summary: string, cls: string = "") {
+    <details class={cx("rounded-md border border-slate-200", cls)}>
         <summary class="cursor-pointer select-none px-3 py-2 text-sm font-medium text-slate-800">{summary}</summary>
         <div class="border-t border-slate-200 px-3 py-2 text-sm text-slate-600"><slot/></div>
     </details>
