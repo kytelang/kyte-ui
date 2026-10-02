@@ -12,6 +12,7 @@
 //   Menu     ([data-kyte="menu"])     Up/Down/Home/End move focus (roving tabindex).
 //   Modal    (data-kyte-open="id")    opens the <dialog> with that id (reopen after close);
 //            (data-kyte-close)         closes the nearest enclosing <dialog>.
+//   Toast    (data-kyte-dismiss)       removes the enclosing [data-kyte="toast"].
 //
 // Usage: <script src="/kyte-ui.js" defer></script>
 (function () {
@@ -45,6 +46,13 @@
     if (closer) {
       var owner = closer.closest("dialog");
       if (owner && typeof owner.close === "function") owner.close();
+      return;
+    }
+    // Toast: data-kyte-dismiss removes the toast it sits in.
+    var dismiss = e.target.closest("[data-kyte-dismiss]");
+    if (dismiss) {
+      var toast = dismiss.closest('[data-kyte="toast"]');
+      if (toast) toast.remove();
       return;
     }
 

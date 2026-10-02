@@ -59,6 +59,28 @@ fn test_new_components(): void {
 }
 
 @test
+fn test_form_and_toast(): void {
+    // Input: void, carries name/type/placeholder/value + focus-ring classes.
+    let inp = <ui.Input name="email" type="email" placeholder="you@x.com"/>;
+    assert.isTrue(string.contains(inp, "name=\"email\""));
+    assert.isTrue(string.contains(inp, "type=\"email\""));
+    assert.isTrue(string.contains(inp, "placeholder=\"you@x.com\""));
+    assert.isTrue(string.contains(inp, "focus:ring-blue-500"));
+    // Input type defaults to text when omitted.
+    assert.isTrue(string.contains(<ui.Input name="q"/>, "type=\"text\""));
+    // Select: slot holds the options.
+    let sel = <ui.Select name="role"><option value="a">A</option></ui.Select>;
+    assert.isTrue(string.contains(sel, "<select name=\"role\""));
+    assert.isTrue(string.contains(sel, "<option value=\"a\">A</option>"));
+    // Toast: tone classes, aria-live, dismiss hook, slot message.
+    let t = <ui.Toast tone={ui.Tone.Success}>Saved.</ui.Toast>;
+    assert.isTrue(string.contains(t, "role=\"status\" aria-live=\"polite\" data-kyte=\"toast\""));
+    assert.isTrue(string.contains(t, "bg-green-50 border-green-200 text-green-800"));
+    assert.isTrue(string.contains(t, "data-kyte-dismiss"));
+    assert.isTrue(string.contains(t, "Saved."));
+}
+
+@test
 fn test_button_size_default(): void {
     // Size defaults to Md (cross-module enum default) when omitted; overridable.
     assert.isTrue(string.contains(<ui.Button tone={ui.Tone.Primary}>x</ui.Button>, "px-3 py-2 text-sm"));

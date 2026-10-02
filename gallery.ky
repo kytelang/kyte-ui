@@ -94,11 +94,29 @@ fn body(): Html {
             </ui.Card>
         </Section>
 
-        <Section title="Field + Spinner + Divider + Avatar">
-            <ui.Field label="Email">
-                <input name="email" type="email" placeholder="you@example.com"
-                       class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-            </ui.Field>
+        <Section title="Form fields (Input + Select)">
+            <div class="flex flex-col gap-4">
+                <ui.Field label="Email">
+                    <ui.Input name="email" type="email" placeholder="you@example.com"/>
+                </ui.Field>
+                <ui.Field label="Role">
+                    <ui.Select name="role">
+                        <option value="dev">Developer</option>
+                        <option value="admin">Administrator</option>
+                        <option value="viewer">Viewer</option>
+                    </ui.Select>
+                </ui.Field>
+            </div>
+        </Section>
+
+        <Section title="Toasts (dismissable via kyte-ui.js)">
+            <div class="flex flex-col gap-3">
+                <ui.Toast tone={ui.Tone.Success}>Your changes were saved.</ui.Toast>
+                <ui.Toast tone={ui.Tone.Danger}>Could not reach the server.</ui.Toast>
+            </div>
+        </Section>
+
+        <Section title="Spinner + Divider + Avatar">
             <ui.Divider/>
             <div class="flex items-center gap-4">
                 <ui.Spinner/>

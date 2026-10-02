@@ -157,6 +157,33 @@ pub component Avatar(src: string, alt: string = "", cls: string = "") {
     <img class={cx("h-8 w-8 rounded-full object-cover", cls)} src={src} alt={alt}/>
 }
 
+// A text input. Void (no slot): put it inside a <ui.Field> for a label.
+pub component Input(name: string, type: string = "text", placeholder: string = "", value: string = "", cls: string = "") {
+    <input name={name} type={type} placeholder={placeholder} value={value}
+           class={cx("w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500", cls)}/>
+}
+
+// A select box. The <option> children go in the slot.
+pub component Select(name: string, cls: string = "") {
+    <select name={name}
+            class={cx("w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500", cls)}>
+        <slot/>
+    </select>
+}
+
+// A dismissable notification. The message is the slot. It announces itself to screen
+// readers (role="status", aria-live). The close button removes it once the optional
+// kyte-ui.js enhancer is loaded (data-kyte-dismiss); without the enhancer it is a static,
+// accessible callout. Position it yourself (for example a fixed container in your layout).
+pub component Toast(tone: Tone, cls: string = "") {
+    <div role="status" aria-live="polite" data-kyte="toast"
+         class={cx(`flex items-start gap-3 rounded-md border px-4 py-3 text-sm shadow-md ${toneAlert(tone)}`, cls)}>
+        <div class="flex-1"><slot/></div>
+        <button type="button" data-kyte-dismiss aria-label="Dismiss"
+                class="shrink-0 rounded p-0.5 opacity-60 hover:opacity-100">&#10005;</button>
+    </div>
+}
+
 // ---------------------------------------------------------------------------
 // Interactive widgets. The ones below use native HTML elements (<details>) so
 // they work under any hypermedia framework (or none) with NO bundled JavaScript.

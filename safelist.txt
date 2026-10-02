@@ -24,3 +24,5 @@ relative inline-block z-10 mt-1 min-w-40 bg-white p-1 shadow-lg gap-1
 w-full flex border-b -mb-px border-b-2 px-3 py-2 border-blue-600 text-blue-700 border-transparent text-slate-500 hover:text-slate-700 p-3 hidden
 block hover:bg-slate-50 focus:bg-slate-50 focus:outline-none shadow-sm
 aria-selected:border-blue-600 aria-selected:text-blue-700 cursor-pointer
+w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500
+flex items-start gap-3 shadow-md flex-1 shrink-0 rounded p-0.5 opacity-60 hover:opacity-100

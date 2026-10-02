@@ -31,6 +31,9 @@ type-checked, and children fill the component's slot.
 | `Alert` | `tone: Tone`, `title: string` | yes | bordered callout; message in the slot |
 | `Card` | `title: string` | yes | titled surface |
 | `Field` | `label: string` | yes | labelled form-field wrapper; put the input in the slot |
+| `Input` | `name: string`, `type: string = "text"`, `placeholder: string = ""`, `value: string = ""` | no | styled text input; put it inside a `Field` for a label |
+| `Select` | `name: string` | yes | styled select; the `<option>`s go in the slot |
+| `Toast` | `tone: Tone` | yes | dismissable notification (`role="status"`); close button removes it via the enhancer |
 | `Disclosure` | `summary: string` | yes | expand/collapse (native `<details>`) |
 | `Modal` | `title: string`, `id: string = ""`, `open: bool = false` | yes | native `<dialog>`; closes via a `method="dialog"` form; reopen with `data-kyte-open="<id>"` via the enhancer |
 | `Spinner` | | no | pure-CSS loading spinner |
@@ -122,12 +125,12 @@ open gallery.html
 
 ## Status
 
-14 components: 10 presentational (`Button`, `Badge`, `Alert`, `Card`, `Field`,
-`Disclosure`, `Modal`, `Spinner`, `Divider`, `Avatar`) and 4 interactive widgets
-(`TreeView`, `Dropdown`, `Tabs`, `Menu`). Typed `Tone` and `Size` variants, an optional
-`cls` override on every component, and cross-module usage via qualified tags. TreeView,
-Dropdown, and Disclosure are no-JS native `<details>`; Tabs and Menu are ARIA-correct and
-enhanced by the optional `kyte-ui.js`. See the gallery above to view them all.
+17 components: 13 presentational (`Button`, `Badge`, `Alert`, `Card`, `Field`, `Input`,
+`Select`, `Toast`, `Disclosure`, `Modal`, `Spinner`, `Divider`, `Avatar`) and 4 interactive
+widgets (`TreeView`, `Dropdown`, `Tabs`, `Menu`). Typed `Tone` and `Size` variants, an
+optional `cls` override on every component, and cross-module usage via qualified tags.
+TreeView, Dropdown, and Disclosure are no-JS native `<details>`; Tabs, Menu, Modal (reopen),
+and Toast (dismiss) are enhanced by the optional `kyte-ui.js`. See the gallery above to view
+them all.
 
-Possible next steps: `Input`/`Select`/`Textarea` field primitives, a `Toast`/notification,
-and a dark-theme pass.
+Possible next steps: a `Textarea`/`Checkbox`/`Radio` field set, and a dark-theme pass.
