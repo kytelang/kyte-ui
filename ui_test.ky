@@ -81,6 +81,29 @@ fn test_form_and_toast(): void {
 }
 
 @test
+fn test_textarea_checkbox_radio(): void {
+    // Textarea: name/placeholder/rows + initial text in the slot.
+    let ta = <ui.Textarea name="bio" placeholder="About you" rows="5">hello</ui.Textarea>;
+    assert.isTrue(string.contains(ta, "<textarea name=\"bio\""));
+    assert.isTrue(string.contains(ta, "placeholder=\"About you\""));
+    assert.isTrue(string.contains(ta, "rows=\"5\""));
+    assert.isTrue(string.contains(ta, ">hello</textarea>"));
+    // rows defaults to 3 when omitted.
+    assert.isTrue(string.contains(<ui.Textarea name="x"></ui.Textarea>, "rows=\"3\""));
+    // Checkbox: unchecked by default, checked when asked.
+    let cb = <ui.Checkbox name="agree" value="y" label="I agree"/>;
+    assert.isTrue(string.contains(cb, "type=\"checkbox\" name=\"agree\" value=\"y\""));
+    assert.isTrue(string.contains(cb, ">I agree</span>"));
+    assert.isTrue(!string.contains(cb, "checked"));
+    assert.isTrue(string.contains(<ui.Checkbox name="a" checked={true}/>, "checked"));
+    // Radio: shares a name, type=radio, checked flag.
+    let r = <ui.Radio name="plan" value="pro" label="Pro" checked={true}/>;
+    assert.isTrue(string.contains(r, "type=\"radio\" name=\"plan\" value=\"pro\""));
+    assert.isTrue(string.contains(r, "checked"));
+    assert.isTrue(string.contains(r, ">Pro</span>"));
+}
+
+@test
 fn test_button_size_default(): void {
     // Size defaults to Md (cross-module enum default) when omitted; overridable.
     assert.isTrue(string.contains(<ui.Button tone={ui.Tone.Primary}>x</ui.Button>, "px-3 py-2 text-sm"));

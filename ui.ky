@@ -171,6 +171,31 @@ pub component Select(name: string, cls: string = "") {
     </select>
 }
 
+// A multi-line text area. The initial text (if any) goes in the slot, as HTML requires.
+pub component Textarea(name: string, placeholder: string = "", rows: string = "3", cls: string = "") {
+    <textarea name={name} placeholder={placeholder} rows={rows}
+              class={cx("w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500", cls)}><slot/></textarea>
+}
+
+// A labelled checkbox. `checked` renders it ticked. The control styling takes `cls`.
+pub component Checkbox(name: string, value: string = "", label: string = "", checked: bool = false, cls: string = "") {
+    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+        <input type="checkbox" name={name} value={value} {checked ? "checked" : ""}
+               class={cx("h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500", cls)}/>
+        <span>{label}</span>
+    </label>
+}
+
+// A labelled radio button. Group several by giving them the same `name`; `checked` marks
+// the selected one. The control styling takes `cls`.
+pub component Radio(name: string, value: string = "", label: string = "", checked: bool = false, cls: string = "") {
+    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+        <input type="radio" name={name} value={value} {checked ? "checked" : ""}
+               class={cx("h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500", cls)}/>
+        <span>{label}</span>
+    </label>
+}
+
 // A dismissable notification. The message is the slot. It announces itself to screen
 // readers (role="status", aria-live). The close button removes it once the optional
 // kyte-ui.js enhancer is loaded (data-kyte-dismiss); without the enhancer it is a static,

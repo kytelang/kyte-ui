@@ -26,3 +26,4 @@ block hover:bg-slate-50 focus:bg-slate-50 focus:outline-none shadow-sm
 aria-selected:border-blue-600 aria-selected:text-blue-700 cursor-pointer
 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500
 flex items-start gap-3 shadow-md flex-1 shrink-0 rounded p-0.5 opacity-60 hover:opacity-100
+inline-flex items-center gap-2 text-sm text-slate-700 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500

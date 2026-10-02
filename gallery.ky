@@ -106,6 +106,20 @@ fn body(): Html {
                         <option value="viewer">Viewer</option>
                     </ui.Select>
                 </ui.Field>
+                <ui.Field label="Bio">
+                    <ui.Textarea name="bio" placeholder="Tell us about yourself" rows="4"></ui.Textarea>
+                </ui.Field>
+                <div class="flex flex-col gap-2">
+                    <span class="text-sm font-medium text-slate-700">Notifications</span>
+                    <ui.Checkbox name="email_opt" value="y" label="Email me product updates" checked={true}/>
+                    <ui.Checkbox name="sms_opt" value="y" label="Text me about outages"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <span class="text-sm font-medium text-slate-700">Plan</span>
+                    <ui.Radio name="plan" value="free" label="Free" checked={true}/>
+                    <ui.Radio name="plan" value="pro" label="Pro"/>
+                    <ui.Radio name="plan" value="team" label="Team"/>
+                </div>
             </div>
         </Section>
 
