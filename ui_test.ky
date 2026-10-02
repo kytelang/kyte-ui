@@ -57,3 +57,10 @@ fn test_new_components(): void {
     assert.isTrue(string.contains(<ui.Avatar src="/u/1.png" alt="Ada"/>, "src=\"/u/1.png\""));
     assert.isTrue(string.contains(<ui.Avatar src="/u/1.png" alt="Ada"/>, "alt=\"Ada\""));
 }
+
+@test
+fn test_button_size_default(): void {
+    // Size defaults to Md (cross-module enum default) when omitted; overridable.
+    assert.isTrue(string.contains(<ui.Button tone={ui.Tone.Primary}>x</ui.Button>, "px-3 py-2 text-sm"));
+    assert.isTrue(string.contains(<ui.Button tone={ui.Tone.Primary} size={ui.Size.Lg}>x</ui.Button>, "px-4 py-2.5 text-base"));
+}

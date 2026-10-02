@@ -25,6 +25,20 @@ pub enum Tone {
     Warning,
 }
 
+pub enum Size {
+    Sm,
+    Md,
+    Lg,
+}
+
+fn sizeButton(s: Size): string {
+    switch (s) {
+        case Size.Sm: { return "px-2 py-1 text-xs"; }
+        case Size.Md: { return "px-3 py-2 text-sm"; }
+        case Size.Lg: { return "px-4 py-2.5 text-base"; }
+    }
+}
+
 fn toneButton(t: Tone): string {
     switch (t) {
         case Tone.Primary: { return "bg-blue-600 hover:bg-blue-700 text-white"; }
@@ -64,8 +78,8 @@ fn cx(base: string, extra: string): string {
 }
 
 // A button. Its content comes from the slot: `<ui.Button tone={ui.Tone.Primary}>Save</ui.Button>`.
-pub component Button(tone: Tone, cls: string = "") {
-    <button class={cx(`inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-colors ${toneButton(tone)}`, cls)}>
+pub component Button(tone: Tone, size: Size = Size.Md, cls: string = "") {
+    <button class={cx(`inline-flex items-center justify-center rounded-md font-medium transition-colors ${sizeButton(size)} ${toneButton(tone)}`, cls)}>
         <slot/>
     </button>
 }
