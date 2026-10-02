@@ -59,8 +59,8 @@ They are ARIA-labelled and ship no bundled JavaScript.
 
 TreeView and Dropdown work with no JavaScript. Tabs and Menu render correct, accessible
 markup that is usable statically (Tabs shows the first panel; Menu is a focusable link
-list), and become fully interactive — tab switching, `aria-selected`, arrow-key roving,
-dropdown outside-click/Escape close — when you include the **optional** `kyte-ui.js`:
+list), and become fully interactive (tab switching, `aria-selected`, arrow-key roving,
+dropdown outside-click/Escape close) when you include the **optional** `kyte-ui.js`:
 
 ```html
 <script src="/kyte-ui.js" defer></script>

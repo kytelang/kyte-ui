@@ -1,4 +1,4 @@
-// gallery.ky — generates gallery.html demonstrating every kyte-ui component.
+// gallery.ky - generates gallery.html demonstrating every kyte-ui component.
 // Build and generate from the kyte-ui directory (a project.json is present, so use the
 // single-file build form, not `kyte run`):
 //     kyte gallery.ky -o /tmp/gallery && /tmp/gallery > gallery.html

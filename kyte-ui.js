@@ -1,4 +1,4 @@
-// kyte-ui.js — OPTIONAL progressive enhancer for kyte-ui's interactive widgets.
+// kyte-ui.js - OPTIONAL progressive enhancer for kyte-ui's interactive widgets.
 //
 // The kit ships framework-agnostic, ARIA-correct markup. The native <details>-based
 // widgets (TreeView, Dropdown, Accordion) already work with no JavaScript. This file
