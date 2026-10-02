@@ -233,7 +233,7 @@ pub fn tabs(group: string, items: List<TabItem>): Html {
                 let it = items.get(i) ?? TabItem("", <></> as Html);
                 <button role="tab" id={`tab-${group}-${i}`} aria-controls={`panel-${group}-${i}`}
                         aria-selected={i == 0 ? "true" : "false"}
-                        class={`-mb-px border-b-2 px-3 py-2 text-sm font-medium ${i == 0 ? "border-blue-600 text-blue-700" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
+                        class="-mb-px cursor-pointer border-b-2 border-transparent px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 aria-selected:border-blue-600 aria-selected:text-blue-700">
                     {it.label}
                 </button>;
             }}
