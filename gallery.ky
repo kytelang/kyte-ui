@@ -131,9 +131,12 @@ fn body(): Html {
             {ui.menu(sampleMenu())}
         </Section>
 
-        <Section title="Modal (native dialog, shown open)">
-            <ui.Modal title="Confirm delete" open={true}>
-                This action cannot be undone. The close button uses a native dialog form.
+        <Section title="Modal (native dialog, open/close via enhancer)">
+            <button data-kyte-open="confirm-delete"
+                    class="inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-colors bg-red-600 hover:bg-red-700 text-white">Open modal</button>
+            <ui.Modal title="Confirm delete" id="confirm-delete">
+                This action cannot be undone. The close button uses a native dialog form;
+                the Open modal button reopens it (via the optional kyte-ui.js enhancer).
             </ui.Modal>
         </Section>
     </div>;

@@ -10,6 +10,8 @@
 //                                      updating aria-selected and showing the panel.
 //   Dropdown ([data-kyte="dropdown"]) closes on an outside click or the Escape key.
 //   Menu     ([data-kyte="menu"])     Up/Down/Home/End move focus (roving tabindex).
+//   Modal    (data-kyte-open="id")    opens the <dialog> with that id (reopen after close);
+//            (data-kyte-close)         closes the nearest enclosing <dialog>.
 //
 // Usage: <script src="/kyte-ui.js" defer></script>
 (function () {
@@ -29,7 +31,24 @@
   }
 
   document.addEventListener("click", function (e) {
-    var tab = e.target.closest ? e.target.closest('[role="tab"]') : null;
+    if (!e.target.closest) return;
+
+    // Modal: an element with data-kyte-open="<id>" opens that <dialog> (reopen after close).
+    var opener = e.target.closest("[data-kyte-open]");
+    if (opener) {
+      var dlg = document.getElementById(opener.getAttribute("data-kyte-open") || "");
+      if (dlg && typeof dlg.showModal === "function") dlg.showModal();
+      return;
+    }
+    // Modal: an element with data-kyte-close closes the <dialog> it sits in.
+    var closer = e.target.closest("[data-kyte-close]");
+    if (closer) {
+      var owner = closer.closest("dialog");
+      if (owner && typeof owner.close === "function") owner.close();
+      return;
+    }
+
+    var tab = e.target.closest('[role="tab"]');
     if (tab) {
       activateTab(tab);
       tab.focus();

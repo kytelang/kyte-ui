@@ -32,7 +32,7 @@ type-checked, and children fill the component's slot.
 | `Card` | `title: string` | yes | titled surface |
 | `Field` | `label: string` | yes | labelled form-field wrapper; put the input in the slot |
 | `Disclosure` | `summary: string` | yes | expand/collapse (native `<details>`) |
-| `Modal` | `title: string`, `open: bool = false` | yes | native `<dialog>`; closes via a `method="dialog"` form, no JS |
+| `Modal` | `title: string`, `id: string = ""`, `open: bool = false` | yes | native `<dialog>`; closes via a `method="dialog"` form; reopen with `data-kyte-open="<id>"` via the enhancer |
 | `Spinner` | | no | pure-CSS loading spinner |
 | `Divider` | | no | horizontal rule |
 | `Avatar` | `src: string`, `alt: string = ""` | no | circular image |
@@ -75,8 +75,11 @@ attributes yourself.
 
 `Modal` renders a native `<dialog>`. Pass `open={true}` to render it open (a server- or
 framework-driven decision); the built-in close button uses `<form method="dialog">`, which
-closes the dialog natively. Opening it later from the client is left to your hypermedia
-framework, so the component stays framework-agnostic.
+closes the dialog natively. To open it from the client (including reopening after a close),
+give the Modal an `id` and put `data-kyte-open="<id>"` on any trigger element: the optional
+`kyte-ui.js` enhancer calls `showModal()` on click (and `data-kyte-close` closes the
+enclosing dialog). Without the enhancer the component stays framework-agnostic, so you can
+drive opening through your hypermedia framework instead.
 
 ## Interactivity is generic, not tied to one framework
 

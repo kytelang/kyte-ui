@@ -127,9 +127,11 @@ pub component Disclosure(summary: string, cls: string = "") {
 
 // A modal dialog built on the native <dialog> element. `open` renders it open (a
 // server-driven or framework-driven decision); it closes natively via the included
-// form method="dialog" button, with no bundled JavaScript. The body is the slot.
-pub component Modal(title: string, open: bool = false, cls: string = "") {
-    <dialog {open ? "open" : ""} class={cx("rounded-lg border border-slate-200 p-0 shadow-xl backdrop:bg-slate-900/40", cls)}>
+// form method="dialog" button, with no bundled JavaScript. Give it an `id` and any
+// element can open it with `data-kyte-open="<id>"` (reopen after close) once the
+// optional kyte-ui.js enhancer is loaded. The body is the slot.
+pub component Modal(title: string, id: string = "", open: bool = false, cls: string = "") {
+    <dialog id={id} {open ? "open" : ""} class={cx("rounded-lg border border-slate-200 p-0 shadow-xl backdrop:bg-slate-900/40", cls)}>
         <div class="flex items-center justify-between border-b border-slate-200 px-4 py-3">
             <h2 class="text-base font-semibold text-slate-800">{title}</h2>
             <form method="dialog" class="m-0">
