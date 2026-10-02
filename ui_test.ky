@@ -37,3 +37,23 @@ fn test_cls_override(): void {
     assert.isTrue(string.contains(<ui.Badge tone={ui.Tone.Primary} cls="ml-2">x</ui.Badge>, "text-blue-800 ml-2\">x</span>"));
     assert.isTrue(string.contains(<ui.Card title="T" cls="w-96">body</ui.Card>, "shadow-sm w-96\">"));
 }
+
+@test
+fn test_new_components(): void {
+    // Modal: closed by default (no `open`), native close form, slot body.
+    let m = <ui.Modal title="Confirm">Are you sure?</ui.Modal>;
+    assert.isTrue(string.contains(m, "<dialog"));
+    assert.isTrue(string.contains(m, "backdrop:bg-slate-900/40"));
+    assert.isTrue(string.contains(m, "<form method=\"dialog\""));
+    assert.isTrue(string.contains(m, "Confirm"));
+    assert.isTrue(string.contains(m, "Are you sure?"));
+    assert.isTrue(!string.contains(m, " open")); // closed: no open attribute value
+    // Modal open
+    let mo = <ui.Modal title="T" open={true}>b</ui.Modal>;
+    assert.isTrue(string.contains(mo, "open"));
+    // Spinner, Divider, Avatar
+    assert.isTrue(string.contains(<ui.Spinner/>, "animate-spin"));
+    assert.isTrue(string.contains(<ui.Divider/>, "<hr class=\"my-4 border-slate-200\"/>"));
+    assert.isTrue(string.contains(<ui.Avatar src="/u/1.png" alt="Ada"/>, "src=\"/u/1.png\""));
+    assert.isTrue(string.contains(<ui.Avatar src="/u/1.png" alt="Ada"/>, "alt=\"Ada\""));
+}

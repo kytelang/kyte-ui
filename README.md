@@ -31,9 +31,21 @@ type-checked, and children fill the component's slot.
 | `Alert` | `tone: Tone`, `title: string` | yes | bordered callout; message in the slot |
 | `Card` | `title: string` | yes | titled surface |
 | `Field` | `label: string` | yes | labelled form-field wrapper; put the input in the slot |
-| `Disclosure` | `summary: string` | yes | expand/collapse |
+| `Disclosure` | `summary: string` | yes | expand/collapse (native `<details>`) |
+| `Modal` | `title: string`, `open: bool = false` | yes | native `<dialog>`; closes via a `method="dialog"` form, no JS |
+| `Spinner` | | no | pure-CSS loading spinner |
+| `Divider` | | no | horizontal rule |
+| `Avatar` | `src: string`, `alt: string = ""` | no | circular image |
+
+Every component also takes an optional `cls: string = ""` that is appended to its base
+classes, so you can restyle without forking.
 
 `Tone` is `Primary`, `Secondary`, `Success`, `Danger`, `Warning`.
+
+`Modal` renders a native `<dialog>`. Pass `open={true}` to render it open (a server- or
+framework-driven decision); the built-in close button uses `<form method="dialog">`, which
+closes the dialog natively. Opening it later from the client is left to your hypermedia
+framework, so the component stays framework-agnostic.
 
 ## Interactivity is generic, not tied to one framework
 
