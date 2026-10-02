@@ -1,0 +1,150 @@
+// gallery.ky — generates gallery.html demonstrating every kyte-ui component.
+// Build and generate from the kyte-ui directory (a project.json is present, so use the
+// single-file build form, not `kyte run`):
+//     kyte gallery.ky -o /tmp/gallery && /tmp/gallery > gallery.html
+// then open gallery.html in a browser (it is next to kyte-ui.js). Styling uses the Tailwind Play CDN and the
+// interactive widgets (Tabs/Menu/Dropdown) are driven by the optional kyte-ui.js,
+// both linked by the generated page.
+import ui;
+import collections.list;
+
+// A titled section wrapper for the gallery.
+component Section(title: string) {
+    <section class="mb-10">
+        <h2 class="mb-3 text-lg font-semibold text-slate-900">{title}</h2>
+        <div class="rounded-xl border border-slate-200 bg-slate-50/50 p-5"><slot/></div>
+    </section>
+}
+
+fn sampleTree(): list.List<ui.TreeNode> {
+    let root = list.List<ui.TreeNode>();
+    let src = ui.TreeNode("src");
+    let feat = ui.TreeNode("Features");
+    feat.children.push(ui.TreeNode("Catalog"));
+    feat.children.push(ui.TreeNode("Orders"));
+    src.children.push(feat);
+    src.children.push(ui.TreeNode("main.ky"));
+    root.push(src);
+    root.push(ui.TreeNode("README.md"));
+    return root;
+}
+
+fn sampleTabs(): list.List<ui.TabItem> {
+    let items = list.List<ui.TabItem>();
+    items.push(ui.TabItem("Overview", <p>Kyte builds hypermedia apps as a single native binary.</p> as Html));
+    items.push(ui.TabItem("Install", <p>Clone and build the toolchain, then <code>kyte init web</code>.</p> as Html));
+    items.push(ui.TabItem("Components", <p>This kit ships 14 KYX components.</p> as Html));
+    return items;
+}
+
+fn sampleMenu(): list.List<ui.MenuLink> {
+    let items = list.List<ui.MenuLink>();
+    items.push(ui.MenuLink("Profile", "/me"));
+    items.push(ui.MenuLink("Settings", "/settings"));
+    items.push(ui.MenuLink("Sign out", "/logout"));
+    return items;
+}
+
+fn body(): Html {
+    return <div class="mx-auto max-w-4xl px-4 py-10">
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold text-slate-900">kyte-ui</h1>
+            <p class="mt-1 text-slate-500">A Tailwind component kit for KYX. Every component below is live.</p>
+        </header>
+
+        <Section title="Buttons (tones)">
+            <div class="flex flex-wrap items-center gap-3">
+                <ui.Button tone={ui.Tone.Primary}>Primary</ui.Button>
+                <ui.Button tone={ui.Tone.Secondary}>Secondary</ui.Button>
+                <ui.Button tone={ui.Tone.Success}>Success</ui.Button>
+                <ui.Button tone={ui.Tone.Danger}>Danger</ui.Button>
+                <ui.Button tone={ui.Tone.Warning}>Warning</ui.Button>
+            </div>
+        </Section>
+
+        <Section title="Buttons (sizes)">
+            <div class="flex flex-wrap items-center gap-3">
+                <ui.Button tone={ui.Tone.Primary} size={ui.Size.Sm}>Small</ui.Button>
+                <ui.Button tone={ui.Tone.Primary} size={ui.Size.Md}>Medium</ui.Button>
+                <ui.Button tone={ui.Tone.Primary} size={ui.Size.Lg}>Large</ui.Button>
+            </div>
+        </Section>
+
+        <Section title="Badges">
+            <div class="flex flex-wrap items-center gap-2">
+                <ui.Badge tone={ui.Tone.Primary}>new</ui.Badge>
+                <ui.Badge tone={ui.Tone.Success}>active</ui.Badge>
+                <ui.Badge tone={ui.Tone.Danger}>error</ui.Badge>
+                <ui.Badge tone={ui.Tone.Warning}>beta</ui.Badge>
+            </div>
+        </Section>
+
+        <Section title="Alerts">
+            <div class="flex flex-col gap-3">
+                <ui.Alert tone={ui.Tone.Success} title="Saved">Your changes were saved.</ui.Alert>
+                <ui.Alert tone={ui.Tone.Warning} title="Heads up">Your trial ends in 3 days.</ui.Alert>
+                <ui.Alert tone={ui.Tone.Danger} title="Failed">Could not reach the server.</ui.Alert>
+            </div>
+        </Section>
+
+        <Section title="Card">
+            <ui.Card title="Account">
+                <p class="mb-3">A titled surface that holds any content.</p>
+                <ui.Badge tone={ui.Tone.Success}>active</ui.Badge>
+            </ui.Card>
+        </Section>
+
+        <Section title="Field + Spinner + Divider + Avatar">
+            <ui.Field label="Email">
+                <input name="email" type="email" placeholder="you@example.com"
+                       class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
+            </ui.Field>
+            <ui.Divider/>
+            <div class="flex items-center gap-4">
+                <ui.Spinner/>
+                <ui.Avatar src="https://i.pravatar.cc/64" alt="Ada"/>
+                <span class="text-sm text-slate-500">spinner and avatar</span>
+            </div>
+        </Section>
+
+        <Section title="Disclosure (native, no JS)">
+            <ui.Disclosure summary="What is KYX?">
+                KYX is Kyte's typed HTML: markup is part of the language, auto-escaped by default.
+            </ui.Disclosure>
+        </Section>
+
+        <Section title="TreeView (native, no JS)">
+            {ui.tree(sampleTree())}
+        </Section>
+
+        <Section title="Dropdown (native toggle)">
+            <ui.Dropdown label="Actions">
+                {ui.menu(sampleMenu())}
+            </ui.Dropdown>
+        </Section>
+
+        <Section title="Tabs (enhanced by kyte-ui.js)">
+            {ui.tabs("demo", sampleTabs())}
+        </Section>
+
+        <Section title="Menu (enhanced by kyte-ui.js)">
+            {ui.menu(sampleMenu())}
+        </Section>
+
+        <Section title="Modal (native dialog, shown open)">
+            <ui.Modal title="Confirm delete" open={true}>
+                This action cannot be undone. The close button uses a native dialog form.
+            </ui.Modal>
+        </Section>
+    </div>;
+}
+
+fn page(): string {
+    let shellOpen = "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>kyte-ui gallery</title><script src=\"https://cdn.tailwindcss.com\"></script></head><body class=\"bg-white text-slate-800\">";
+    let shellClose = "<script src=\"kyte-ui.js\" defer></script></body></html>";
+    return `${shellOpen}${body() as string}${shellClose}`;
+}
+
+fn main(): void {
+    console.log(page());
+}

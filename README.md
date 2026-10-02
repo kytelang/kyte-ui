@@ -106,6 +106,17 @@ module.exports = {
 A `safelist.txt` of every class this kit emits is also provided for setups that prefer an
 explicit safelist over a content glob.
 
+## Demo gallery
+
+`gallery.ky` renders every component into a single `gallery.html` you can open in a
+browser (Tailwind via the Play CDN; the interactive widgets driven by `kyte-ui.js`,
+both linked by the page):
+
+```sh
+kyte gallery.ky -o /tmp/gallery && /tmp/gallery > gallery.html
+open gallery.html
+```
+
 ## Status
 
 v0: presentational components with typed variants, plus one HTML-native interactive
