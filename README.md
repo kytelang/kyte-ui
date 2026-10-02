@@ -22,11 +22,11 @@ fn page(name: string): Html {
 Components are used with qualified tags (`<ui.Name .../>`), props are passed by name and
 type-checked, and children fill the component's slot.
 
-## Components (v0)
+## Components
 
 | Component | Props | Slot | Notes |
 | --- | --- | --- | --- |
-| `Button` | `tone: Tone` | yes | the label is the slot content |
+| `Button` | `tone: Tone`, `size: Size = Size.Md` | yes | the label is the slot content |
 | `Badge` | `tone: Tone` | yes | a small status pill |
 | `Alert` | `tone: Tone`, `title: string` | yes | bordered callout; message in the slot |
 | `Card` | `title: string` | yes | titled surface |
@@ -119,8 +119,12 @@ open gallery.html
 
 ## Status
 
-v0: presentational components with typed variants, plus one HTML-native interactive
-(`Disclosure`). Planned: optional props and a `class` override prop (so components can be
-restyled without forking), `Size` variants, and more interactive patterns (Modal via
-`<dialog>`, Tabs). These wait on an optional-props language feature so overrides stay
-ergonomic.
+14 components: 10 presentational (`Button`, `Badge`, `Alert`, `Card`, `Field`,
+`Disclosure`, `Modal`, `Spinner`, `Divider`, `Avatar`) and 4 interactive widgets
+(`TreeView`, `Dropdown`, `Tabs`, `Menu`). Typed `Tone` and `Size` variants, an optional
+`cls` override on every component, and cross-module usage via qualified tags. TreeView,
+Dropdown, and Disclosure are no-JS native `<details>`; Tabs and Menu are ARIA-correct and
+enhanced by the optional `kyte-ui.js`. See the gallery above to view them all.
+
+Possible next steps: `Input`/`Select`/`Textarea` field primitives, a `Toast`/notification,
+and a dark-theme pass.
