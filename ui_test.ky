@@ -64,3 +64,49 @@ fn test_button_size_default(): void {
     assert.isTrue(string.contains(<ui.Button tone={ui.Tone.Primary}>x</ui.Button>, "px-3 py-2 text-sm"));
     assert.isTrue(string.contains(<ui.Button tone={ui.Tone.Primary} size={ui.Size.Lg}>x</ui.Button>, "px-4 py-2.5 text-base"));
 }
+
+@test
+fn test_tree_and_dropdown(): void {
+    let root = List<ui.TreeNode>();
+    let src = ui.TreeNode("src");
+    src.children.push(ui.TreeNode("main.ky"));
+    root.push(src);
+    root.push(ui.TreeNode("README"));
+    let t = ui.tree(root) as string;
+    assert.isTrue(string.contains(t, "<ul role=\"tree\""));
+    assert.isTrue(string.contains(t, "<details"));            // branch for src
+    assert.isTrue(string.contains(t, "<summary"));
+    assert.isTrue(string.contains(t, "main.ky"));
+    assert.isTrue(string.contains(t, "role=\"group\""));       // nested group
+    assert.isTrue(string.contains(t, "<span class=\"pl-4\">README</span>")); // leaf
+
+    let d = <ui.Dropdown label="Actions"><a href="/edit">Edit</a></ui.Dropdown>;
+    assert.isTrue(string.contains(d, "<details class=\"relative inline-block\" data-kyte=\"dropdown\">"));
+    assert.isTrue(string.contains(d, "<summary"));
+    assert.isTrue(string.contains(d, "role=\"menu\""));
+    assert.isTrue(string.contains(d, "<a href=\"/edit\">Edit</a>"));
+}
+
+@test
+fn test_tabs_and_menu(): void {
+    let ts = List<ui.TabItem>();
+    ts.push(ui.TabItem("One", <p>first</p> as Html));
+    ts.push(ui.TabItem("Two", <p>second</p> as Html));
+    let tabs = ui.tabs("demo", ts) as string;
+    assert.isTrue(string.contains(tabs, "role=\"tablist\""));
+    assert.isTrue(string.contains(tabs, "id=\"tab-demo-0\""));
+    assert.isTrue(string.contains(tabs, "aria-controls=\"panel-demo-0\""));
+    assert.isTrue(string.contains(tabs, "aria-selected=\"true\""));   // first tab
+    assert.isTrue(string.contains(tabs, "aria-selected=\"false\""));  // second tab
+    assert.isTrue(string.contains(tabs, "id=\"panel-demo-1\""));
+    assert.isTrue(string.contains(tabs, "<p>first</p>"));
+    assert.isTrue(string.contains(tabs, "hidden\">"));                 // second panel hidden
+
+    let ms = List<ui.MenuLink>();
+    ms.push(ui.MenuLink("Profile", "/me"));
+    ms.push(ui.MenuLink("Sign out", "/logout"));
+    let menu = ui.menu(ms) as string;
+    assert.isTrue(string.contains(menu, "role=\"menu\""));
+    assert.isTrue(string.contains(menu, "role=\"menuitem\" href=\"/me\" tabindex=\"0\""));
+    assert.isTrue(string.contains(menu, "href=\"/logout\" tabindex=\"-1\""));
+}

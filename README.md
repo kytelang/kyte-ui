@@ -40,6 +40,37 @@ type-checked, and children fill the component's slot.
 Every component also takes an optional `cls: string = ""` that is appended to its base
 classes, so you can restyle without forking.
 
+## Interactive widgets
+
+These are **data-driven** (pass a structure, get `Html`), used as `{ui.tree(nodes)}` etc.
+They are ARIA-labelled and ship no bundled JavaScript.
+
+| Widget | Call | Data | Interaction |
+|---|---|---|---|
+| **TreeView** | `ui.tree(nodes)` | `List<TreeNode>` (recursive) | native `<details>`, expand/collapse + keyboard, **no JS** |
+| **Dropdown** | `<ui.Dropdown label="…">…</ui.Dropdown>` | slot | native `<details>` toggle, **no JS** (outside-click/Escape close via optional JS) |
+| **Tabs** | `ui.tabs(group, items)` | `List<TabItem{label, panel}>` | first tab shown statically; click + arrow keys via optional JS |
+| **Menu** | `ui.menu(items)` | `List<MenuLink{label, href}>` | accessible link list statically; arrow-key roving via optional JS |
+
+`TreeNode(label)` then `.children.push(...)`; `TabItem(label, panel: Html)`; `MenuLink(label, href)`.
+`ui.tabs`'s `group` must be unique on the page (it namespaces the tab/panel ids).
+
+### Optional enhancer: `kyte-ui.js`
+
+TreeView and Dropdown work with no JavaScript. Tabs and Menu render correct, accessible
+markup that is usable statically (Tabs shows the first panel; Menu is a focusable link
+list), and become fully interactive — tab switching, `aria-selected`, arrow-key roving,
+dropdown outside-click/Escape close — when you include the **optional** `kyte-ui.js`:
+
+```html
+<script src="/kyte-ui.js" defer></script>
+```
+
+It is dependency-free, loaded once globally, and uses event delegation so it also covers
+markup your hypermedia framework swaps in later. Nothing is bundled or auto-loaded; if you
+prefer to drive these with Alpine or your own code, leave it out and wire the ARIA
+attributes yourself.
+
 `Tone` is `Primary`, `Secondary`, `Success`, `Danger`, `Warning`.
 
 `Modal` renders a native `<dialog>`. Pass `open={true}` to render it open (a server- or
