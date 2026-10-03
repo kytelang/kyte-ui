@@ -6,9 +6,10 @@ of the language standard library.
 
 ## Install
 
-Every app scaffolded with `kyte init web` depends on kyte-ui by default, so it is already wired
-and you can skip straight to using components. To add it to an existing app, it is a git-URL
-dependency (Kyte has no central registry): add it to your `project.json` and import it.
+kyte-ui is optional and not bundled with the `kyte init web` scaffold; you add it to a web app when
+you want it. It is a git-URL dependency (Kyte has no central registry): add it to your `project.json`
+and import it. A scaffolded project's own `README.md` has a short "Optional: the kyte-ui component
+kit" section that walks through the same steps.
 
 ```json
 {
@@ -116,8 +117,8 @@ Tailwind must be able to see the kit's classes, and it must re-run whenever your
 
 This kit's component source is fetched to the Kyte package cache, not your project, so you do not
 point Tailwind at it directly. Instead the kit ships a `safelist.txt` listing every class it emits;
-add that file to your Tailwind `content` so the classes are always generated. A `kyte init web` app
-already does this (the file is scaffolded as `styles/kyte-ui.safelist.txt`):
+download it into your project (for example `styles/kyte-ui.safelist.txt`) and add it to your Tailwind
+`content` so the classes are always generated:
 
 ```js
 // tailwind.config.js
@@ -147,7 +148,7 @@ complete without the watcher.
 ### Dark mode
 
 Enable the class strategy so the kit's `dark:` variants work. With the Tailwind v4 CLI, add a custom
-variant to your `styles/app.css` (a `kyte init web` app has this already):
+variant to your `styles/app.css`:
 
 ```css
 @import "tailwindcss";
@@ -155,20 +156,21 @@ variant to your `styles/app.css` (a `kyte init web` app has this already):
 @custom-variant dark (&:where(.dark, .dark *));
 ```
 
-Then toggle the `.dark` class on `<html>` yourself; the kit does not bundle a toggle. The scaffold
-ships a `wwwroot/theme.js` that does this for any `[data-theme-toggle]` element and persists the
-choice to `localStorage`.
+Then toggle the `.dark` class on `<html>` yourself; the kit does not bundle a toggle. A tiny script
+that flips `.dark` for any `[data-theme-toggle]` element and persists the choice to `localStorage` is
+a few lines; include it from `wwwroot` and reference it in your `index.html`.
 
 ## Trying it
 
-The quickest way to see the kit in a real app is to scaffold one: `kyte init web --name myapp`
-creates a web app that already depends on kyte-ui, with the Tailwind wiring, the enhancer and a
-component in the starter view. Then:
+Scaffold a web app and add kyte-ui to it. The generated project's `README.md` has an "Optional: the
+kyte-ui component kit" section with the exact steps (dependency, safelist, `kyte-ui.js`, dark mode):
 
 ```sh
+kyte init web --name myapp
 cd myapp
-kyte build        # fetches kyte-ui and compiles the app
-npm install       # once
+# follow the README's kyte-ui section: add the dependency, the safelist, and kyte-ui.js
+kyte build            # fetches kyte-ui and compiles the app
+npm install           # once
 npm run css:watch &   # keep Tailwind rebuilding wwwroot/index.css
 ./build/debug/bin/myapp --port 8099
 # open http://127.0.0.1:8099/
@@ -185,4 +187,5 @@ Typed `Tone` and `Size` variants, an optional `cls` override on every component,
 cross-module usage via qualified tags. TreeView, Dropdown, and Disclosure are no-JS native
 `<details>`; Tabs, Menu, Modal (reopen), and Toast (dismiss) are enhanced by the optional
 `kyte-ui.js`. Every component ships `dark:` variants for a full dark theme (Tailwind `class`
-strategy). Scaffold a web app with `kyte init web` to see them all in a running app.
+strategy). Scaffold a web app with `kyte init web`, add kyte-ui per its README, to see them in a
+running app.
