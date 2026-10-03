@@ -6,7 +6,15 @@ of the language standard library.
 
 ## Install
 
-kyte-ui is a git-URL dependency. Add it to your `project.json` dependencies and import it:
+Every app scaffolded with `kyte init web` depends on kyte-ui by default, so it is already wired
+and you can skip straight to using components. To add it to an existing app, it is a git-URL
+dependency (Kyte has no central registry): add it to your `project.json` and import it.
+
+```json
+{
+  "dependencies": ["https://github.com/kytelang/kyte-ui"]
+}
+```
 
 ```kyte
 import ui;
@@ -19,8 +27,10 @@ fn page(name: string): Html {
 }
 ```
 
-Components are used with qualified tags (`<ui.Name .../>`), props are passed by name and
-type-checked, and children fill the component's slot.
+`kyte build` fetches the package. Components are used with qualified tags (`<ui.Name .../>`), props
+are passed by name and type-checked, and children fill the component's slot. The one extra step for
+styling is to keep Tailwind running so the kit's classes land in your stylesheet: see
+[Keep Tailwind running](#keep-tailwind-running) below.
 
 ## Components
 
@@ -79,14 +89,7 @@ attributes yourself.
 
 `Tone` is `Primary`, `Secondary`, `Success`, `Danger`, `Warning`.
 
-### Dark theme
-
-Every component ships `dark:` Tailwind variants, so the whole kit adapts to dark mode with no
-extra work. It uses Tailwind's `class` strategy: dark styling applies whenever the `dark`
-class is on a parent (usually `<html>`). Configure your app with `darkMode: 'class'` in
-`tailwind.config.js` and toggle the class yourself (a theme switch, a system-preference
-check, or both). The kit does not bundle a toggle or force a theme, so you stay in control;
-the demo gallery includes a small example toggle that persists the choice to `localStorage`.
+### Modal
 
 `Modal` renders a native `<dialog>`. Pass `open={true}` to render it open (a server- or
 framework-driven decision); the built-in close button uses `<form method="dialog">`, which
@@ -105,37 +108,73 @@ mechanism. Where behaviour must be server-driven (load content into a panel, sub
 swap), express it in your handler through `web.hyper`, which already speaks each
 framework's dialect; the components stay neutral markup.
 
-## Tailwind: keep the classes
+## Keep Tailwind running
 
-Tailwind's JIT only emits the utility classes it can see in your `content` sources. Since
-this kit's classes live in the package, add the package to your Tailwind `content` globs so
-they are not purged:
+Tailwind only emits the utility classes it can see in its `content` sources, and it emits them
+into one stylesheet (`wwwroot/index.css`) that your `index.html` links. So two things matter:
+Tailwind must be able to see the kit's classes, and it must re-run whenever your markup changes.
+
+This kit's component source is fetched to the Kyte package cache, not your project, so you do not
+point Tailwind at it directly. Instead the kit ships a `safelist.txt` listing every class it emits;
+add that file to your Tailwind `content` so the classes are always generated. A `kyte init web` app
+already does this (the file is scaffolded as `styles/kyte-ui.safelist.txt`):
 
 ```js
 // tailwind.config.js
 module.exports = {
   content: [
-    "./src/**/*.{ky,kyx}",
-    "./**/kyte-ui/**/*.ky",   // keep kyte-ui's utility classes
+    "./src/**/*.{kyx,ky}",
+    "./wwwroot/*.html",
+    "./styles/kyte-ui.safelist.txt", // emit kyte-ui's classes (its source is a fetched dependency)
   ],
 };
 ```
 
-A `safelist.txt` of every class this kit emits is also provided for setups that prefer an
-explicit safelist over a content glob.
-
-## Demo gallery
-
-The gallery lives in a **separate consumer project**, `kyte-ui-demo`, which imports this
-package (`import ui;`) and renders every component, so it doubles as a worked example of
-depending on kyte-ui. It is not part of this library repo. See `kyte-ui-demo/README.md`;
-in short:
+Then **keep the Tailwind CLI running in watch mode** while you develop, so `wwwroot/index.css`
+stays up to date as you add or change markup. If you stop it, new classes you use will be missing
+until you run it again:
 
 ```sh
-cd ../kyte-ui-demo && ./build.sh
-python3 -m http.server 8099 --bind 127.0.0.1 --directory public
+npm install        # once
+npm run css:watch  # rebuilds wwwroot/index.css on every change; leave it running
+```
+
+The scaffold's `css:watch` script is
+`tailwindcss -i ./styles/app.css -o ./wwwroot/index.css --watch`. For a production build run the
+one-shot `npm run css` (which adds `--minify`) as part of your build, so the final `index.css` is
+complete without the watcher.
+
+### Dark mode
+
+Enable the class strategy so the kit's `dark:` variants work. With the Tailwind v4 CLI, add a custom
+variant to your `styles/app.css` (a `kyte init web` app has this already):
+
+```css
+@import "tailwindcss";
+@config "../tailwind.config.js";
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+Then toggle the `.dark` class on `<html>` yourself; the kit does not bundle a toggle. The scaffold
+ships a `wwwroot/theme.js` that does this for any `[data-theme-toggle]` element and persists the
+choice to `localStorage`.
+
+## Trying it
+
+The quickest way to see the kit in a real app is to scaffold one: `kyte init web --name myapp`
+creates a web app that already depends on kyte-ui, with the Tailwind wiring, the enhancer and a
+component in the starter view. Then:
+
+```sh
+cd myapp
+kyte build        # fetches kyte-ui and compiles the app
+npm install       # once
+npm run css:watch &   # keep Tailwind rebuilding wwwroot/index.css
+./build/debug/bin/myapp --port 8099
 # open http://127.0.0.1:8099/
 ```
+
+The guide chapter "The kyte-ui component kit" walks through the same setup in more detail.
 
 ## Status
 
@@ -146,4 +185,4 @@ Typed `Tone` and `Size` variants, an optional `cls` override on every component,
 cross-module usage via qualified tags. TreeView, Dropdown, and Disclosure are no-JS native
 `<details>`; Tabs, Menu, Modal (reopen), and Toast (dismiss) are enhanced by the optional
 `kyte-ui.js`. Every component ships `dark:` variants for a full dark theme (Tailwind `class`
-strategy). See the gallery above to view them all (it has a light/dark toggle).
+strategy). Scaffold a web app with `kyte init web` to see them all in a running app.
