@@ -79,6 +79,15 @@ attributes yourself.
 
 `Tone` is `Primary`, `Secondary`, `Success`, `Danger`, `Warning`.
 
+### Dark theme
+
+Every component ships `dark:` Tailwind variants, so the whole kit adapts to dark mode with no
+extra work. It uses Tailwind's `class` strategy: dark styling applies whenever the `dark`
+class is on a parent (usually `<html>`). Configure your app with `darkMode: 'class'` in
+`tailwind.config.js` and toggle the class yourself (a theme switch, a system-preference
+check, or both). The kit does not bundle a toggle or force a theme, so you stay in control;
+the demo gallery includes a small example toggle that persists the choice to `localStorage`.
+
 `Modal` renders a native `<dialog>`. Pass `open={true}` to render it open (a server- or
 framework-driven decision); the built-in close button uses `<form method="dialog">`, which
 closes the dialog natively. To open it from the client (including reopening after a close),
@@ -134,6 +143,5 @@ open gallery.html
 Typed `Tone` and `Size` variants, an optional `cls` override on every component, and
 cross-module usage via qualified tags. TreeView, Dropdown, and Disclosure are no-JS native
 `<details>`; Tabs, Menu, Modal (reopen), and Toast (dismiss) are enhanced by the optional
-`kyte-ui.js`. See the gallery above to view them all.
-
-Possible next step: a dark-theme pass.
+`kyte-ui.js`. Every component ships `dark:` variants for a full dark theme (Tailwind `class`
+strategy). See the gallery above to view them all (it has a light/dark toggle).

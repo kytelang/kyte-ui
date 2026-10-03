@@ -43,7 +43,7 @@ fn sizeButton(s: Size): string {
 fn toneButton(t: Tone): string {
     switch (t) {
         case Tone.Primary: { return "bg-blue-600 hover:bg-blue-700 text-white"; }
-        case Tone.Secondary: { return "bg-slate-200 hover:bg-slate-300 text-slate-900"; }
+        case Tone.Secondary: { return "bg-slate-200 hover:bg-slate-300 text-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100"; }
         case Tone.Success: { return "bg-green-600 hover:bg-green-700 text-white"; }
         case Tone.Danger: { return "bg-red-600 hover:bg-red-700 text-white"; }
         case Tone.Warning: { return "bg-amber-500 hover:bg-amber-600 text-white"; }
@@ -52,21 +52,21 @@ fn toneButton(t: Tone): string {
 
 fn toneBadge(t: Tone): string {
     switch (t) {
-        case Tone.Primary: { return "bg-blue-100 text-blue-800"; }
-        case Tone.Secondary: { return "bg-slate-100 text-slate-800"; }
-        case Tone.Success: { return "bg-green-100 text-green-800"; }
-        case Tone.Danger: { return "bg-red-100 text-red-800"; }
-        case Tone.Warning: { return "bg-amber-100 text-amber-800"; }
+        case Tone.Primary: { return "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200"; }
+        case Tone.Secondary: { return "bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-200"; }
+        case Tone.Success: { return "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200"; }
+        case Tone.Danger: { return "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200"; }
+        case Tone.Warning: { return "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"; }
     }
 }
 
 fn toneAlert(t: Tone): string {
     switch (t) {
-        case Tone.Primary: { return "bg-blue-50 border-blue-200 text-blue-800"; }
-        case Tone.Secondary: { return "bg-slate-50 border-slate-200 text-slate-800"; }
-        case Tone.Success: { return "bg-green-50 border-green-200 text-green-800"; }
-        case Tone.Danger: { return "bg-red-50 border-red-200 text-red-800"; }
-        case Tone.Warning: { return "bg-amber-50 border-amber-200 text-amber-800"; }
+        case Tone.Primary: { return "bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-950/40 dark:border-blue-900 dark:text-blue-200"; }
+        case Tone.Secondary: { return "bg-slate-50 border-slate-200 text-slate-800 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"; }
+        case Tone.Success: { return "bg-green-50 border-green-200 text-green-800 dark:bg-green-950/40 dark:border-green-900 dark:text-green-200"; }
+        case Tone.Danger: { return "bg-red-50 border-red-200 text-red-800 dark:bg-red-950/40 dark:border-red-900 dark:text-red-200"; }
+        case Tone.Warning: { return "bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-950/40 dark:border-amber-900 dark:text-amber-200"; }
     }
 }
 
@@ -102,16 +102,16 @@ pub component Alert(tone: Tone, title: string, cls: string = "") {
 
 // A titled surface that holds arbitrary content in its slot.
 pub component Card(title: string, cls: string = "") {
-    <section class={cx("rounded-lg border border-slate-200 bg-white p-4 shadow-sm", cls)}>
-        <h3 class="text-base font-semibold text-slate-800">{title}</h3>
-        <div class="mt-2 text-sm text-slate-600"><slot/></div>
+    <section class={cx("rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800", cls)}>
+        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">{title}</h3>
+        <div class="mt-2 text-sm text-slate-600 dark:text-slate-300"><slot/></div>
     </section>
 }
 
 // A labelled form field wrapper; put the input in the slot.
 pub component Field(label: string, cls: string = "") {
     <label class={cx("block", cls)}>
-        <span class="mb-1 block text-sm font-medium text-slate-700">{label}</span>
+        <span class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{label}</span>
         <slot/>
     </label>
 }
@@ -119,9 +119,9 @@ pub component Field(label: string, cls: string = "") {
 // A disclosure (expand/collapse) built on the native <details> element: no JavaScript,
 // works under every hypermedia framework. Dropdowns and accordions build on this.
 pub component Disclosure(summary: string, cls: string = "") {
-    <details class={cx("rounded-md border border-slate-200", cls)}>
-        <summary class="cursor-pointer select-none px-3 py-2 text-sm font-medium text-slate-800">{summary}</summary>
-        <div class="border-t border-slate-200 px-3 py-2 text-sm text-slate-600"><slot/></div>
+    <details class={cx("rounded-md border border-slate-200 dark:border-slate-700", cls)}>
+        <summary class="cursor-pointer select-none px-3 py-2 text-sm font-medium text-slate-800 dark:text-slate-100">{summary}</summary>
+        <div class="border-t border-slate-200 px-3 py-2 text-sm text-slate-600 dark:border-slate-700 dark:text-slate-300"><slot/></div>
     </details>
 }
 
@@ -131,25 +131,25 @@ pub component Disclosure(summary: string, cls: string = "") {
 // element can open it with `data-kyte-open="<id>"` (reopen after close) once the
 // optional kyte-ui.js enhancer is loaded. The body is the slot.
 pub component Modal(title: string, id: string = "", open: bool = false, cls: string = "") {
-    <dialog id={id} {open ? "open" : ""} class={cx("rounded-lg border border-slate-200 p-0 shadow-xl backdrop:bg-slate-900/40", cls)}>
-        <div class="flex items-center justify-between border-b border-slate-200 px-4 py-3">
-            <h2 class="text-base font-semibold text-slate-800">{title}</h2>
+    <dialog id={id} {open ? "open" : ""} class={cx("rounded-lg border border-slate-200 bg-white p-0 text-slate-900 shadow-xl backdrop:bg-slate-900/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100", cls)}>
+        <div class="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+            <h2 class="text-base font-semibold text-slate-800 dark:text-slate-100">{title}</h2>
             <form method="dialog" class="m-0">
-                <button class="rounded p-1 text-slate-400 hover:text-slate-600">&#10005;</button>
+                <button class="rounded p-1 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300">&#10005;</button>
             </form>
         </div>
-        <div class="px-4 py-3 text-sm text-slate-600"><slot/></div>
+        <div class="px-4 py-3 text-sm text-slate-600 dark:text-slate-300"><slot/></div>
     </dialog>
 }
 
 // A spinner (pure CSS, no JavaScript).
 pub component Spinner(cls: string = "") {
-    <span class={cx("inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600", cls)}></span>
+    <span class={cx("inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600 dark:border-slate-600 dark:border-t-slate-300", cls)}></span>
 }
 
 // A horizontal divider.
 pub component Divider(cls: string = "") {
-    <hr class={cx("my-4 border-slate-200", cls)}/>
+    <hr class={cx("my-4 border-slate-200 dark:border-slate-700", cls)}/>
 }
 
 // A circular avatar image.
@@ -160,13 +160,13 @@ pub component Avatar(src: string, alt: string = "", cls: string = "") {
 // A text input. Void (no slot): put it inside a <ui.Field> for a label.
 pub component Input(name: string, type: string = "text", placeholder: string = "", value: string = "", cls: string = "") {
     <input name={name} type={type} placeholder={placeholder} value={value}
-           class={cx("w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500", cls)}/>
+           class={cx("w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500", cls)}/>
 }
 
 // A select box. The <option> children go in the slot.
 pub component Select(name: string, cls: string = "") {
     <select name={name}
-            class={cx("w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500", cls)}>
+            class={cx("w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100", cls)}>
         <slot/>
     </select>
 }
@@ -174,14 +174,14 @@ pub component Select(name: string, cls: string = "") {
 // A multi-line text area. The initial text (if any) goes in the slot, as HTML requires.
 pub component Textarea(name: string, placeholder: string = "", rows: string = "3", cls: string = "") {
     <textarea name={name} placeholder={placeholder} rows={rows}
-              class={cx("w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500", cls)}><slot/></textarea>
+              class={cx("w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500", cls)}><slot/></textarea>
 }
 
 // A labelled checkbox. `checked` renders it ticked. The control styling takes `cls`.
 pub component Checkbox(name: string, value: string = "", label: string = "", checked: bool = false, cls: string = "") {
-    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+    <label class="inline-flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
         <input type="checkbox" name={name} value={value} {checked ? "checked" : ""}
-               class={cx("h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500", cls)}/>
+               class={cx("h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800", cls)}/>
         <span>{label}</span>
     </label>
 }
@@ -189,9 +189,9 @@ pub component Checkbox(name: string, value: string = "", label: string = "", che
 // A labelled radio button. Group several by giving them the same `name`; `checked` marks
 // the selected one. The control styling takes `cls`.
 pub component Radio(name: string, value: string = "", label: string = "", checked: bool = false, cls: string = "") {
-    <label class="inline-flex items-center gap-2 text-sm text-slate-700">
+    <label class="inline-flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
         <input type="radio" name={name} value={value} {checked ? "checked" : ""}
-               class={cx("h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500", cls)}/>
+               class={cx("h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800", cls)}/>
         <span>{label}</span>
     </label>
 }
@@ -229,7 +229,7 @@ pub struct TreeNode {
 // keyboard work with no JavaScript. ARIA tree roles are applied; a branch's
 // open/closed state is the native <details> state (implicit aria-expanded).
 pub fn tree(nodes: List<TreeNode>): Html {
-    return <ul role="tree" class="text-sm text-slate-700">
+    return <ul role="tree" class="text-sm text-slate-700 dark:text-slate-300">
         {for (i in 0..nodes.size()) {
             let n = nodes.get(i) ?? TreeNode("");
             treeItem(n);
@@ -244,8 +244,8 @@ fn treeItem(n: TreeNode): Html {
         }}
         {if (n.children.size() > 0) {
             <details class="pl-1">
-                <summary class="cursor-pointer select-none rounded px-1 hover:bg-slate-100">{n.label}</summary>
-                <ul role="group" class="border-l border-slate-200 pl-3">
+                <summary class="cursor-pointer select-none rounded px-1 hover:bg-slate-100 dark:hover:bg-slate-700">{n.label}</summary>
+                <ul role="group" class="border-l border-slate-200 pl-3 dark:border-slate-700">
                     {for (j in 0..n.children.size()) {
                         let c = n.children.get(j) ?? TreeNode("");
                         treeItem(c);
@@ -261,10 +261,10 @@ fn treeItem(n: TreeNode): Html {
 // Escape key needs a little client code; the optional kyte-ui.js enhancer adds it.)
 pub component Dropdown(label: string, cls: string = "") {
     <details class={cx("relative inline-block", cls)} data-kyte="dropdown">
-        <summary class="inline-flex cursor-pointer select-none items-center gap-1 rounded-md border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
+        <summary class="inline-flex cursor-pointer select-none items-center gap-1 rounded-md border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700">
             {label}
         </summary>
-        <div role="menu" class="absolute z-10 mt-1 min-w-40 rounded-md border border-slate-200 bg-white p-1 shadow-lg">
+        <div role="menu" class="absolute z-10 mt-1 min-w-40 rounded-md border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
             <slot/>
         </div>
     </details>
@@ -282,12 +282,12 @@ pub struct TabItem {
 // optional kyte-ui.js enhancer makes clicking and arrow keys switch tabs. No bundled JS.
 pub fn tabs(group: string, items: List<TabItem>): Html {
     return <div class="w-full" data-kyte="tabs">
-        <div role="tablist" class="flex gap-1 border-b border-slate-200">
+        <div role="tablist" class="flex gap-1 border-b border-slate-200 dark:border-slate-700">
             {for (i in 0..items.size()) {
                 let it = items.get(i) ?? TabItem("", <></> as Html);
                 <button role="tab" id={`tab-${group}-${i}`} aria-controls={`panel-${group}-${i}`}
                         aria-selected={i == 0 ? "true" : "false"}
-                        class="-mb-px cursor-pointer border-b-2 border-transparent px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 aria-selected:border-blue-600 aria-selected:text-blue-700">
+                        class="-mb-px cursor-pointer border-b-2 border-transparent px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 aria-selected:border-blue-600 aria-selected:text-blue-700 dark:text-slate-400 dark:hover:text-slate-200 dark:aria-selected:border-blue-400 dark:aria-selected:text-blue-400">
                     {it.label}
                 </button>;
             }}
@@ -295,7 +295,7 @@ pub fn tabs(group: string, items: List<TabItem>): Html {
         {for (j in 0..items.size()) {
             let it2 = items.get(j) ?? TabItem("", <></> as Html);
             <div role="tabpanel" id={`panel-${group}-${j}`} aria-labelledby={`tab-${group}-${j}`}
-                 class={`p-3 text-sm text-slate-600 ${j == 0 ? "" : "hidden"}`}>
+                 class={`p-3 text-sm text-slate-600 dark:text-slate-300 ${j == 0 ? "" : "hidden"}`}>
                 {it2.panel}
             </div>;
         }}
@@ -312,12 +312,12 @@ pub struct MenuLink {
 // An ARIA menu as a list of links. Accessible as navigation statically; the optional
 // kyte-ui.js enhancer adds arrow-key roving focus.
 pub fn menu(items: List<MenuLink>): Html {
-    return <ul role="menu" data-kyte="menu" class="min-w-40 rounded-md border border-slate-200 bg-white p-1 text-sm shadow-sm">
+    return <ul role="menu" data-kyte="menu" class="min-w-40 rounded-md border border-slate-200 bg-white p-1 text-sm shadow-sm dark:border-slate-700 dark:bg-slate-800">
         {for (i in 0..items.size()) {
             let m = items.get(i) ?? MenuLink("", "#");
             <li role="none">
                 <a role="menuitem" href={m.href} tabindex={i == 0 ? "0" : "-1"}
-                   class="block rounded px-3 py-2 text-slate-700 hover:bg-slate-50 focus:bg-slate-50 focus:outline-none">
+                   class="block rounded px-3 py-2 text-slate-700 hover:bg-slate-50 focus:bg-slate-50 focus:outline-none dark:text-slate-200 dark:hover:bg-slate-700 dark:focus:bg-slate-700">
                     {m.label}
                 </a>
             </li>;

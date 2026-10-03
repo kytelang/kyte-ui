@@ -27,3 +27,9 @@ aria-selected:border-blue-600 aria-selected:text-blue-700 cursor-pointer
 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500
 flex items-start gap-3 shadow-md flex-1 shrink-0 rounded p-0.5 opacity-60 hover:opacity-100
 inline-flex items-center gap-2 text-sm text-slate-700 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500
+dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100 dark:text-slate-200 dark:text-slate-300 dark:text-slate-400 dark:text-slate-500
+dark:bg-blue-900/40 dark:text-blue-200 dark:bg-green-900/40 dark:text-green-200 dark:bg-red-900/40 dark:text-red-200 dark:bg-amber-900/40 dark:text-amber-200
+dark:bg-blue-950/40 dark:border-blue-900 dark:bg-green-950/40 dark:border-green-900 dark:bg-red-950/40 dark:border-red-900 dark:bg-amber-950/40 dark:border-amber-900
+dark:border-slate-600 dark:border-slate-700 dark:border-slate-800 dark:bg-slate-800 dark:bg-slate-900 dark:bg-slate-900/40
+dark:border-t-slate-300 dark:placeholder:text-slate-500 dark:hover:bg-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200 dark:hover:text-slate-300
+dark:focus:bg-slate-700 dark:aria-selected:border-blue-400 dark:aria-selected:text-blue-400 dark:inline dark:hidden
