@@ -126,13 +126,15 @@ explicit safelist over a content glob.
 
 ## Demo gallery
 
-`gallery.ky` renders every component into a single `gallery.html` you can open in a
-browser (Tailwind via the Play CDN; the interactive widgets driven by `kyte-ui.js`,
-both linked by the page):
+The gallery lives in a **separate consumer project**, `kyte-ui-demo`, which imports this
+package (`import ui;`) and renders every component, so it doubles as a worked example of
+depending on kyte-ui. It is not part of this library repo. See `kyte-ui-demo/README.md`;
+in short:
 
 ```sh
-kyte gallery.ky -o /tmp/gallery && /tmp/gallery > gallery.html
-open gallery.html
+cd ../kyte-ui-demo && ./build.sh
+python3 -m http.server 8099 --bind 127.0.0.1 --directory public
+# open http://127.0.0.1:8099/
 ```
 
 ## Status
